@@ -1,14 +1,14 @@
 const Project = (title) => {
     let name = title;
     let project = [];
-    const addTodo = (todo) => {
-        project.push(todo);
+    const addTask= (task) => {
+        project.push(task);
     }
-    const removeTodo = (todo) => {
-        const t = project.indexOf(todo);
+    const removeTask = (task) => {
+        const t = project.indexOf(task);
         project.splice(t, 1);
     }
-    return {name, project, addTodo, removeTodo};
+    return {name, project, addTask, removeTask};
     
 };
 

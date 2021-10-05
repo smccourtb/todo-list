@@ -1,4 +1,4 @@
-import {TodoCreator, projectHeader} from "./DOM.js"
+import {taskCreator, projectHeader} from "./DOM.js"
 
 const boo = (() => {
     projectHeader("Inbox")
@@ -8,7 +8,7 @@ const boo = (() => {
 
 
 
-class Todo {
+class Task {
     constructor(title, description, dueDate, priority, complete=false) {
         this.title = title;
         this.description = description;
@@ -46,18 +46,6 @@ class Todo {
     }
 };
 
-const Project = (title) => {
-    let name = title;
-    let project = [];
-    const addTodo = (todo) => {
-        project.push(todo);
-    }
-    const removeTodo = (todo) => {
-        const t = project.indexOf(todo);
-        project.splice(t, 1);
-    }
-    return {name, project, addTodo, removeTodo};
-    
-};
 
-export {Todo}
+
+export {Task}

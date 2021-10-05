@@ -1,4 +1,4 @@
-import {Todo} from "./index.js"
+import {Task} from "./index.js"
 
 const TodoCreator = () => {
     const main = document.querySelector(".content");
@@ -66,8 +66,10 @@ const projectHeader = (projectName) => {
 }
 
 const todoAdder = () => {
-    const todo = new Todo
+    const main = document.querySelector(".content")
+    const box = document.createElement('div')
+    const task = new Task
     //create a new todo
     //add it to project list
 }
-export {TodoCreator, projectHeader}
+export {taskCreator, projectHeader}
