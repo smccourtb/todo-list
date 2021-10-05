@@ -1,3 +1,5 @@
+import {Todo} from "./index.js"
+
 const TodoCreator = () => {
     const main = document.querySelector(".content");
     const form = document.createElement("form");
@@ -45,4 +47,27 @@ const TodoCreator = () => {
     main.append(form)
 }
 
-export {TodoCreator}
+const projectWindow = () => {
+    const main = document.querySelector(".content")
+    const display = document.createElement("div")
+    
+}
+
+
+const projectHeader = (projectName) => {
+    const main = document.querySelector(".content")
+    const header = document.createElement("div");
+    const title = document.createElement("div")
+    const label = document.createElement("h5")
+    label.innerHTML = projectName;
+    title.append(label)
+    header.append(title)
+    main.append(header)
+}
+
+const todoAdder = () => {
+    const todo = new Todo
+    //create a new todo
+    //add it to project list
+}
+export {TodoCreator, projectHeader}

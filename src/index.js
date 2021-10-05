@@ -1,7 +1,7 @@
-import {TodoCreator} from "./DOM.js"
+import {TodoCreator, projectHeader} from "./DOM.js"
 
 const boo = (() => {
-    TodoCreator()
+    projectHeader("Inbox")
 })()
 
 
@@ -59,3 +59,5 @@ const Project = (title) => {
     return {name, project, addTodo, removeTodo};
     
 };
+
+export {Todo}
