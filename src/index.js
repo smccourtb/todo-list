@@ -1,3 +1,13 @@
+import {TodoCreator} from "./DOM.js"
+
+const boo = (() => {
+    TodoCreator()
+})()
+
+
+
+
+
 class Todo {
     constructor(title, description, dueDate, priority, complete=false) {
         this.title = title;
