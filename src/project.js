@@ -8,7 +8,10 @@ const Project = (title) => {
         const t = project.indexOf(task);
         project.splice(t, 1);
     }
-    return {name, project, addTask, removeTask};
+    const getName = () => {
+        return name
+    }
+    return {getName, project, addTask, removeTask};
     
 };
 

@@ -1,75 +1,73 @@
-import {Task} from "./index.js"
+import {Task} from "./task.js"
+import {Project} from "./project.js"
+// import Add from "./add/svg"
 
-const TodoCreator = () => {
+const taskInput = () => {
+    // get project name
+    const name = "Inbox"
     const main = document.querySelector(".content");
     const form = document.createElement("form");
-
+    console.log(name)
     // create an input element for title
-    const tLabel = document.createElement('label');
     const tInput = document.createElement('input');
-    tLabel.setAttribute("for", 'title')
     tInput.setAttribute("type", "text");
     tInput.setAttribute("name", "title");
     tInput.setAttribute('id', "title")
-    tInput.setAttribute("placeholder", 'What do you need to do?');
-    //create an input element for description
-    const dInput = document.createElement('input');
-    dInput.setAttribute("type", "text");
-    dInput.setAttribute("name", "Description");
-    dInput.setAttribute("placeholder", 'Additional info')
-    //create an input element for due date
-    const dDInput = document.createElement('input');
-    dDInput.setAttribute("type", "date");
-    dDInput.setAttribute("name", "Due Date");
-    //create input element for priority
-    const pInput = document.createElement('select');
-    // pInput.setAttribute("size", "3");
-    pInput.setAttribute("id", "priority");
-    pInput.setAttribute("name", "priority");
-    for (let i of ["low", "medium", "high"]) {
-        const option = document.createElement('option');
-        option.setAttribute("value", i);
-        option.innerHTML = i;
-        if(i === "low") {
-            option.setAttribute("selected", i);
-        }
-        pInput.append(option);
-    }
-    const submit = document.createElement('input')
-    submit.setAttribute("type", "submit")
-    submit.setAttribute("value", "Add")
-
-    // add all generated DOM elements into form element
-    for( let i of [tLabel, tInput, dInput, dDInput, pInput, submit]) {
-        form.append(i);
-    }
-    // add the form to the main page
-    main.append(form)
+    tInput.setAttribute("placeholder", `Add task to "${name}". press Enter to save.`);
+    tInput.addEventListener("keyup", function(event) {
+        if(event.key !== "Enter") return;
+            const newTask = new Task(tInput.value)
+            tInput.value = ""
+            event.preventDefault();
+            return newTask
+    })
+    // form.append(tInput)
+    main.append(tInput)
 }
 
-const projectWindow = () => {
+const newProject = (projectName) => {
+    const project = new Project(projectName)
+    return project
+}
+
+const loadDefaultProjects = () => {
+    const inbox = document.querySelector(".inbox");
+    const today = document.querySelector(".today");
+    const upcoming = document.querySelector(".upcoming");
+}
+
+const addProject = () => {
+    // get DOM elements
+    const newProject = document.getElementById("input-add-project-popup");
+    const addProjectButton = document.querySelector(".add-project-button");
+    const addProjectPopup = document.querySelector(".add-project-popup");
+    newProject.setAttribute("placeholder", "Add a new project.")
+    // add event listeners
+    addProjectButton.addEventListener("click", () => {
+        addProjectPopup.classList.toggle("add-project-popup-show");
+    })
+    newProject.addEventListener("keyup", function(event) {
+        if(event.key !== "Enter") return;
+            const project = Project(newProject.value);
+            newProject.value = "";
+            addProjectPopup.classList.remove("add-project-popup-show");
+            addProjectPopup.classList.add("add-project-popup");
+            event.preventDefault();
+            console.log(project.getName())
+            const userProjectBtn = document.createElement('button')
+            userProjectBtn.textContent = project.getName()
+            const nav = document.querySelector("nav")
+            nav.append(userProjectBtn)
+    })
+}
+
+const taskList = () => {
     const main = document.querySelector(".content")
-    const display = document.createElement("div")
-    
+    const body = document.createElement("div")
+    const tList = document.createElement("ol")
+
 }
 
 
-const projectHeader = (projectName) => {
-    const main = document.querySelector(".content")
-    const header = document.createElement("div");
-    const title = document.createElement("div")
-    const label = document.createElement("h5")
-    label.innerHTML = projectName;
-    title.append(label)
-    header.append(title)
-    main.append(header)
-}
 
-const todoAdder = () => {
-    const main = document.querySelector(".content")
-    const box = document.createElement('div')
-    const task = new Task
-    //create a new todo
-    //add it to project list
-}
-export {taskCreator, projectHeader}
+export {taskInput, addProject}

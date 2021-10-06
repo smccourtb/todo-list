@@ -6,8 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="build.js" defer></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
 </head>
 <body>
-    <div class="content"></div>
+    <header class="header">
+        <div class="logo">
+            <h1 class="page-name">Todo List</h1>
+        </div>
+    </header>
+      <main class="main">
+        <nav class="nav" id="nav">
+            <!-- Default projects -->
+            <div class="default-projects-container">
+                <button class="default-project">
+                    <i class="inbox"></i>
+                        Inbox
+                </button>
+                <button class="default-project">
+                    <i class="day"></i>
+                        Today
+                </button>
+                <button class="default-project">
+                    <i class="upcoming"></i>
+                        This week
+                </button>
+            </div>
+            <!-- User projects -->
+            <div class="user-projects-header">
+                <h1 class="projects-title">Lists</h1>
+                <button class="add-project-button material-icons">add</button>
+            </div>
+            <div class="projects-list"></div>
+            
+            <div class="add-project-popup" id="add-project-popup">
+            <input
+                class="input-add-project-popup"
+                id="input-add-project-popup"
+                type="text"
+            />
+            </div>
+            </div>
+        </nav>
+
+        <!-- Tasks -->
+        <div class="add-task-input">
+            <input type="text" />
+        </div>
+        <div class="project-preview" id="project-preview"></div>
+    </main>
+      <footer class="footer">
+        <p>Copyright © 2021 smccourtb</p>
+        <a href="https://github.com/smccourtb" target="_blank">></a>
+      </footer>
 </body>
 </html>
