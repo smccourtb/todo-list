@@ -1,17 +1,17 @@
 const Project = (title) => {
     let name = title;
-    let project = [];
+    let taskList = [];
     const addTask= (task) => {
-        project.push(task);
+        taskList.push(task);
     }
     const removeTask = (task) => {
-        const t = project.indexOf(task);
-        project.splice(t, 1);
+        const t = taskList.indexOf(task);
+        taskList.splice(t, 1);
     }
     const getName = () => {
         return name
     }
-    return {getName, project, addTask, removeTask};
+    return {getName, taskList, addTask, removeTask};
     
 };
 

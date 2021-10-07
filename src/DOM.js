@@ -2,41 +2,39 @@ import {Task} from "./task.js"
 import {Project} from "./project.js"
 // import Add from "./add/svg"
 
-const taskInput = () => {
-    // get project name
-    const name = "Inbox"
-    const main = document.querySelector(".content");
-    const form = document.createElement("form");
-    console.log(name)
-    // create an input element for title
-    const tInput = document.createElement('input');
-    tInput.setAttribute("type", "text");
-    tInput.setAttribute("name", "title");
-    tInput.setAttribute('id', "title")
-    tInput.setAttribute("placeholder", `Add task to "${name}". press Enter to save.`);
-    tInput.addEventListener("keyup", function(event) {
-        if(event.key !== "Enter") return;
-            const newTask = new Task(tInput.value)
-            tInput.value = ""
-            event.preventDefault();
-            return newTask
-    })
-    // form.append(tInput)
-    main.append(tInput)
+// const taskInput = () => {
+//     // get project name
+//     const name = "Inbox"
+//     const main = document.querySelector(".content");
+//     const form = document.createElement("form");
+//     console.log(name)
+//     // create an input element for title
+//     const tInput = document.createElement('input');
+//     tInput.setAttribute("type", "text");
+//     tInput.setAttribute("name", "title");
+//     tInput.setAttribute('id', "title")
+//     tInput.setAttribute("placeholder", `Add task to "${name}". press Enter to save.`);
+//     tInput.addEventListener("keyup", function(event) {
+//         if(event.key !== "Enter") return;
+//             const newTask = new Task(tInput.value)
+//             tInput.value = ""
+//             event.preventDefault();
+//             return newTask
+//     })
+//     // form.append(tInput)
+//     main.append(tInput)
+// }
+
+const showTasks = (project) => {
+    const taskList = document.querySelector(".task-list")
+    for (let task of project.taskList) {
+        const newLi = document.createaElement("li");
+        newLi.textContent = task.getName();
+        taskList.append(taskList);
+    }
 }
 
-const newProject = (projectName) => {
-    const project = new Project(projectName)
-    return project
-}
-
-const loadDefaultProjects = () => {
-    const inbox = document.querySelector(".inbox");
-    const today = document.querySelector(".today");
-    const upcoming = document.querySelector(".upcoming");
-}
-
-const addProject = () => {
+const userProjectsEventListeners = () => {
     // get DOM elements
     const newProject = document.getElementById("input-add-project-popup");
     const addProjectButton = document.querySelector(".add-project-button");
@@ -58,16 +56,26 @@ const addProject = () => {
             userProjectBtn.textContent = project.getName()
             const nav = document.querySelector("nav")
             nav.append(userProjectBtn)
+            // load the project page
     })
 }
 
-const taskList = () => {
-    const main = document.querySelector(".content")
-    const body = document.createElement("div")
-    const tList = document.createElement("ol")
 
-}
+const setupTaskInputListener = (project) => {
+    const newTaskInput = document.querySelector(".project-preview")
+    newTaskInput.addEventListener("keyup", function(event) {
+        if (event.key !== "Enter") return;
+        const newTask = new Task(newTaskInput.value)
+        console.log(newTask)
+        project.addTask(newTask)
+        console.log(newTaskInput.value)
+        console.log(newTask.getTitle())
+        newTaskInput.value = ""
+        
+        })
+    }
 
+export {userProjectsSetup, showTasks}
 
-
-export {taskInput, addProject}
+//get list of default projects (inbox, today, upcoming)
+// add event listeners to links of default projects and add the loadProject function
