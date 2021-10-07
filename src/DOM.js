@@ -65,17 +65,17 @@ const setupTaskInputListener = (project) => {
     const newTaskInput = document.querySelector(".project-preview")
     newTaskInput.addEventListener("keyup", function(event) {
         if (event.key !== "Enter") return;
-        const newTask = new Task(newTaskInput.value)
-        console.log(newTask)
-        project.addTask(newTask)
-        console.log(newTaskInput.value)
-        console.log(newTask.getTitle())
-        newTaskInput.value = ""
-        
-        })
-    }
+        createNewTask(project);
+    })
+}
 
-export {userProjectsSetup, showTasks}
+const createNewTask = project => {
+    const newTask = new Task(newTaskInput.value)
+    project.addTask(newTask)
+    newTaskInput.value = ""
+}
+
+export {showTasks}
 
 //get list of default projects (inbox, today, upcoming)
 // add event listeners to links of default projects and add the loadProject function
