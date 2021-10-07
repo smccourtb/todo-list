@@ -7,12 +7,16 @@ import {Task} from "./task.js"
 
 const ProjectList = (() => {
     let projectList = [];
+    let currentProject = projectList[0]
     const addProject = name => {
         projectList.push(name);
     }
     const removeProject = projectName => {
         const t = projectList.indexOf(projectName);
         projectList.splice(t, 1);
+    }
+    const setCurrentProject = (project) => {
+        currentProject = project;
     }
     const defaultListSetup = (() => {
         // create 3 default projects
@@ -29,8 +33,9 @@ const ProjectList = (() => {
                 project.addTask(newTask)
             }
         }
+        setCurrentProject(inbox)
     })()
-    return {projectList, addProject, removeProject}
+    return {currentProject, projectList, addProject, removeProject}
 })();
 
 console.log(ProjectList)
