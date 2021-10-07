@@ -35,7 +35,7 @@ const ProjectList = (() => {
         }
         setCurrentProject(inbox)
     })()
-    return {currentProject, projectList, addProject, removeProject}
+    return {currentProject, projectList, addProject, removeProject, setCurrentProject}
 })();
 
 console.log(ProjectList)

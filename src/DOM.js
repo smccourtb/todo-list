@@ -5,10 +5,14 @@ import {ProjectList} from "./project-list.js"
 
 
 const showTasks = (project) => {
-    //switch current project to the one that was clicked
-    ProjectList.setCurrentProject
     const taskList = document.querySelector(".task-list")
-    for (let task of ProjectList.currentProject.taskList) {
+    console.log('Im being clicked')
+    console.log(project.taskList)
+    //clear tasks
+    taskList.replaceChildren()
+    //switch current project to the one that was clicked
+    ProjectList.setCurrentProject(project)
+    for (let task of project.taskList) {
         console.log(task)
         const newLi = document.createElement("li");
         newLi.textContent = task.getTitle();
@@ -22,13 +26,13 @@ const showTasks = (project) => {
 
 const setupEventListeners = (() => {
     // setup adding new task to current project
-    const setupTaskInputListener = ((project) => {
+    const setupTaskInputListener = (() => {
         const newTaskInput = document.querySelector(".add-task-input")
         newTaskInput.addEventListener("keyup", function(event) {
             if (event.key !== "Enter") return;
             ProjectList.currentProject.addTask(new Task(newTaskInput.value));
-            console.log(ProjectList.currentProject)
             newTaskInput.value = "";
+            showTasks(ProjectList.currentProject)
         })
     })();
     // setup adding new projects
@@ -50,7 +54,6 @@ const setupEventListeners = (() => {
                 addProjectInput.value = "";
                 // add to ProjectList
                 ProjectList.addProject(project)
-                console.log(ProjectList)
                 addProjectPopup.classList.toggle("add-project-popup-show");
                 event.preventDefault();
                 // adds a button to load the project
@@ -64,17 +67,14 @@ const setupEventListeners = (() => {
 })()
 
 const addProjectLink = (whichProject) => {
+    ProjectList.currentProject = whichProject
+    showTasks(whichProject)
     const userProjectBtn = document.createElement('button')
-    userProjectBtn.addEventListener("click", showTasks(whichProject))
+    userProjectBtn.addEventListener("click", () => {
+        showTasks(whichProject)
+    })
     userProjectBtn.textContent = whichProject.getName()
-
     return userProjectBtn
-}
-
-const createNewTask = project => {
-    const newTask = new Task(newTaskInput.value)
-    project.addTask(newTask)
-    newTaskInput.value = ""
 }
 
 export {setupEventListeners}
