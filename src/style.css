@@ -18,10 +18,12 @@
 }
 
 nav {
-    width: 15%;
+    min-width: 15%;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    resize: horizontal;
+    overflow: auto;
+
 }
 
 
@@ -76,11 +78,9 @@ button {
 
 ol {
     list-style-type: none;
-    border: solid;
 }
 
 .project-task-list-container {
-    border: solid;
     width: 100%;
     height: 100%;
     display: flex;
@@ -89,5 +89,4 @@ ol {
 
 .task-container {
     display: flex;
-
 }
