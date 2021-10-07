@@ -32,7 +32,7 @@ class Task {
         return this.priority;
     }
     markComplete() {
-        this.complete = !complete
+        this.complete = !this.complete
     }
 };
 

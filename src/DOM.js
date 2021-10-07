@@ -5,20 +5,32 @@ import {ProjectList} from "./project-list.js"
 
 
 const showTasks = (project) => {
-    const taskList = document.querySelector(".task-list")
-    const checkbox = document.createElement("input")
-    const taskContainer = document.createElement("div")
-    taskContainer.classList.add("task-container")
-    checkbox.setAttribute("type", "checkbox")
-    console.log('Im being clicked')
-    console.log(project.taskList)
+    const taskList = document.querySelector(".task-list"); // the ol element
+    const taskListContainer = document.querySelector(".project-task-list-container")
+    
+    
     //clear tasks
-    taskList.replaceChildren()
+    taskList.replaceChildren();
     //switch current project to the one that was clicked
     
     for (let task of project.taskList) {
+        const checkbox = document.createElement("input"); // checkbox for tasks
+        const taskContainer = document.createElement("div"); // houses checkbox and the newLI
         const newLi = document.createElement("li");
         newLi.textContent = task.getTitle();
+        taskContainer.classList.add("task-container");
+    checkbox.setAttribute("type", "checkbox");
+        checkbox.addEventListener("click", () => {
+            
+            if (checkbox.checked) {
+                console.log('hi there');
+                task.markComplete()
+                project.addToCompleted(task)
+                project.removeTask(task)
+                showTasks(project)
+                
+            }
+        })
         taskContainer.append(checkbox, newLi);
 
         taskList.append(taskContainer);
@@ -91,12 +103,9 @@ const defaultListeventListeners = (() => {
     for( let i of [inboxDOM, todayDOM, upcomingDOM]) {
         i.addEventListener("click", () => {
             ProjectList.setCurrentProject(ProjectList.getProject(i.name))
-            console.log(ProjectList.getProject(i.name).getName())
             showTasks(ProjectList.getProject(i.name))
         })
     }  
 })()
-export {setupEventListeners}
 
-//get list of default projects (inbox, today, upcoming)
-// add event listeners to links of default projects and add the loadProject function
+export {setupEventListeners}

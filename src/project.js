@@ -1,6 +1,7 @@
 const Project = (title) => {
     let name = title;
     let taskList = [];
+    let completedTasks = [];
     const addTask= (task) => {
         taskList.push(task);
     }
@@ -11,7 +12,13 @@ const Project = (title) => {
     const getName = () => {
         return name
     }
-    return {getName, taskList, addTask, removeTask};
+    const addToCompleted = (task) => {
+        completedTasks.push(task);
+    }
+    const getCompleted = () => {
+        return completedTasks;
+    }
+    return {getName, taskList, addTask, removeTask, completedTasks, addToCompleted, getCompleted};
     
 };
 
