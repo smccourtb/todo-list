@@ -11,9 +11,8 @@ const showTasks = (project) => {
     //clear tasks
     taskList.replaceChildren()
     //switch current project to the one that was clicked
-    ProjectList.setCurrentProject(project)
+    
     for (let task of project.taskList) {
-        console.log(task)
         const newLi = document.createElement("li");
         newLi.textContent = task.getTitle();
         taskList.append(newLi);
@@ -30,9 +29,10 @@ const setupEventListeners = (() => {
         const newTaskInput = document.querySelector(".add-task-input")
         newTaskInput.addEventListener("keyup", function(event) {
             if (event.key !== "Enter") return;
-            ProjectList.currentProject.addTask(new Task(newTaskInput.value));
+            const current = ProjectList.getCurrentProject()
+            current.addTask(new Task(newTaskInput.value));
             newTaskInput.value = "";
-            showTasks(ProjectList.currentProject)
+            showTasks(current)
         })
     })();
     // setup adding new projects
@@ -67,7 +67,7 @@ const setupEventListeners = (() => {
 })()
 
 const addProjectLink = (whichProject) => {
-    ProjectList.currentProject = whichProject
+    ProjectList.setCurrentProject(whichProject)
     showTasks(whichProject)
     const userProjectBtn = document.createElement('button')
     userProjectBtn.addEventListener("click", () => {
@@ -76,7 +76,19 @@ const addProjectLink = (whichProject) => {
     userProjectBtn.textContent = whichProject.getName()
     return userProjectBtn
 }
+const defaultListeventListeners = (() => {
+    const inboxDOM = document.querySelector(".inbox")
+    const todayDOM = document.querySelector(".today")
+    const upcomingDOM = document.querySelector(".upcoming")
 
+    for( let i of [inboxDOM, todayDOM, upcomingDOM]) {
+        i.addEventListener("click", () => {
+            ProjectList.setCurrentProject(ProjectList.getProject(i.name))
+            console.log(ProjectList.getProject(i.name).getName())
+            showTasks(ProjectList.getProject(i.name))
+        })
+    }  
+})()
 export {setupEventListeners}
 
 //get list of default projects (inbox, today, upcoming)

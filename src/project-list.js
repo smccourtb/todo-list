@@ -18,6 +18,16 @@ const ProjectList = (() => {
     const setCurrentProject = (project) => {
         currentProject = project;
     }
+    const getCurrentProject = () => {
+        return currentProject;
+    }
+    const getProject = projectName => {
+        for(let project of ProjectList.projectList) {
+            if(project.getName() === projectName) {
+                return project
+            }
+        };
+    }
     const defaultListSetup = (() => {
         // create 3 default projects
         const inbox = Project("Inbox") //default project on load
@@ -32,10 +42,10 @@ const ProjectList = (() => {
                 const newTask = new Task("buy more milk.")
                 project.addTask(newTask)
             }
+        setCurrentProject(projectList[0])
         }
-        setCurrentProject(inbox)
     })()
-    return {currentProject, projectList, addProject, removeProject, setCurrentProject}
+    return {currentProject, projectList, addProject, removeProject, getProject, setCurrentProject, getCurrentProject}
 })();
 
 console.log(ProjectList)
