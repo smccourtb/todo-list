@@ -73,3 +73,17 @@ button {
 .add-task-input {
     flex: 1 0 auto;
 }
+
+ol li {
+    list-style-type: none;
+}
+
+.project-task-list-container {
+    border: solid;
+    width: 100%;
+    height: 100%;
+}
+
+.task-container {
+    display: flex;
+}

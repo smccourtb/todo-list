@@ -6,6 +6,10 @@ import {ProjectList} from "./project-list.js"
 
 const showTasks = (project) => {
     const taskList = document.querySelector(".task-list")
+    const checkbox = document.createElement("input")
+    const taskContainer = document.createElement("div")
+    taskContainer.classList.add("task-container")
+    checkbox.setAttribute("type", "checkbox")
     console.log('Im being clicked')
     console.log(project.taskList)
     //clear tasks
@@ -15,7 +19,9 @@ const showTasks = (project) => {
     for (let task of project.taskList) {
         const newLi = document.createElement("li");
         newLi.textContent = task.getTitle();
-        taskList.append(newLi);
+        taskContainer.append(checkbox, newLi);
+
+        taskList.append(taskContainer);
     }
 }
 
@@ -27,6 +33,7 @@ const setupEventListeners = (() => {
     // setup adding new task to current project
     const setupTaskInputListener = (() => {
         const newTaskInput = document.querySelector(".add-task-input")
+        
         newTaskInput.addEventListener("keyup", function(event) {
             if (event.key !== "Enter") return;
             const current = ProjectList.getCurrentProject()
