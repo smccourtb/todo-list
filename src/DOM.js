@@ -50,22 +50,43 @@ const showTasks = (project) => {
             const taskPreview = document.querySelector(".task-preview-content");
             taskPreview.replaceChildren()
             const taskPreviewTitle = document.createElement("h3");
+
             const descriptionText = document.createElement("textarea")
             descriptionText.classList.add("description-text")
             descriptionText.setAttribute("placeholder", "Description")
             descriptionText.addEventListener("keyup", function (event) {
-
                 if (event.key !== "Enter") return;
-
-                task.setDescription(descriptionText.value)
-                alert(task.getDescription())
+                task.setDescription(descriptionText.value);
+                alert(task.getDescription());
             })
-            taskPreviewTitle.textContent = task.getTitle()
+
+            taskPreviewTitle.textContent = task.getTitle();
+            taskPreviewTitle.classList.add("task-preview-title");
+            taskPreviewTitle.addEventListener("click", () => {
+                const taskTitleChange = document.createElement('input')
+                taskTitleChange.classList.add("task-preview-title-input")
+                const taskTitle = document.querySelector(".task-preview-title")
+                const description = document.querySelector(".description-text")
+                taskTitleChange.setAttribute('type', "text")
+                taskTitleChange.setAttribute('placeholder', task.getTitle())
+                taskTitleChange.addEventListener("keyup", function (event) {
+                    if (event.key !== "Enter") return;
+                    if (taskTitleChange.value === "") return;
+                    task.setTitle(taskTitleChange.value)
+                })
+                taskPreview.removeChild(taskTitle)
+                taskPreview.insertBefore(taskTitleChange, description)
+
+
+            })
             if (task.getDescription()) {
                 descriptionText.value = task.getDescription()
             }
-            taskPreview.append(taskPreviewTitle, descriptionText)
+            taskPreview.append(taskPreviewTitle, descriptionText);
         })
+
+
+
 
         taskContainer.append(checkbox, newLi);
 

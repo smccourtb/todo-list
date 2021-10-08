@@ -27,7 +27,16 @@ nav {
 
 }
 
+body {
+    font-family: 'Nimbus Sans';
+    font-weight: 100;
+    font-size: 14px;
+}
 
+h5 {
+    font-weight: 100;
+    font-size: 24px;
+}
 
 main {
     height: 100vh;
@@ -126,4 +135,15 @@ ol {
     resize: none;
     max-width: 100%;
     max-height: 100%;
+}
+
+.task-preview-title-input {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 19px;
+    padding: 18px 0px;
+    font-family: "DejaVu Serif";
+    font-weight: bold;
+    width: 100%;
 }
