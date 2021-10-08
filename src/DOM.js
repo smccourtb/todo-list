@@ -45,7 +45,10 @@ const showTasks = (project) => {
             showTaskMenu(e);
         }
         taskContainer.addEventListener("click", () => {
+            taskContainer.classList.toggle("task-container-clicked")
 
+            const x = document.getElementsByClassName(".task-container-clicked")
+            console.log(x)
             const task = taskInfo(project, taskName);
             const taskPreview = document.querySelector(".task-preview-content");
             taskPreview.replaceChildren()
