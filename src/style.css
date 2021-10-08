@@ -23,6 +23,7 @@ nav {
     flex-direction: column;
     resize: horizontal;
     overflow: auto;
+    background-color: thistle;
 
 }
 
@@ -30,7 +31,6 @@ nav {
 
 main {
     height: 100vh;
-    border: solid;
     display: flex;
 
 }
@@ -56,7 +56,6 @@ a {
 
 button {
     background: none;
-    border: none;
 }
 
 .project-preview {
@@ -64,20 +63,24 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: antiquewhite;
 }
 
 .add-task {
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 .add-task-input {
-    flex: 1 0 auto;
+    flex: 1 1 auto;
+    margin-left: 10px;
 }
 
 ol {
     list-style-type: none;
+    padding: 0px;
 }
 
 .project-task-list-container {
@@ -89,4 +92,23 @@ ol {
 
 .task-container {
     display: flex;
+    width: 100%;
+    padding: 5px 5px 0px 0px;
+}
+
+.task-container:hover {
+    background-color: lightgray;
+
+}
+
+.task-preview {
+    background-color: rgb(141, 219, 212);
+    resize: horizontal;
+    overflow: auto;
+    direction: rtl;
+    min-width: 20%;
+}
+
+.task-preview-content {
+    direction: ltr;
 }
