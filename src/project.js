@@ -2,7 +2,7 @@ const Project = (title) => {
     let name = title;
     let taskList = [];
     let completedTasks = [];
-    const addTask= (task) => {
+    const addTask = (task) => {
         taskList.push(task);
     }
     const removeTask = (task) => {
@@ -18,8 +18,26 @@ const Project = (title) => {
     const getCompleted = () => {
         return completedTasks;
     }
-    return {getName, taskList, addTask, removeTask, completedTasks, addToCompleted, getCompleted};
-    
+    const getTaskInfo = (taskName) => {
+        for (let task of taskList) {
+            if (task.getTitle() === taskName) {
+                return task;
+            }
+        };
+    }
+    return {
+        getName,
+        taskList,
+        addTask,
+        removeTask,
+        completedTasks,
+        addToCompleted,
+        getCompleted,
+        getTaskInfo
+    };
+
 };
 
-export {Project}
+export {
+    Project
+}

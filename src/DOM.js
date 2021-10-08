@@ -11,6 +11,8 @@ import {
 
 
 const showTasks = (project) => {
+    const taskPreview = document.querySelector(".task-preview-content")
+    taskPreview.replaceChildren()
     const taskList = document.querySelector(".task-list"); // the ol element
     const taskListContainer = document.querySelector(".project-task-list-container")
     const projectTitle = document.querySelector(".project-title")
@@ -25,6 +27,8 @@ const showTasks = (project) => {
         const newLi = document.createElement("li");
         newLi.textContent = task.getTitle();
         taskContainer.classList.add("task-container");
+        taskContainer.setAttribute("name", task.getTitle())
+        const taskName = taskContainer.getAttribute("name")
         checkbox.setAttribute("type", "checkbox");
         checkbox.addEventListener("click", () => {
 
@@ -40,13 +44,47 @@ const showTasks = (project) => {
         taskContainer.oncontextmenu = (e) => {
             showTaskMenu(e);
         }
+        taskContainer.addEventListener("click", () => {
+
+            const task = taskInfo(project, taskName);
+            const taskPreview = document.querySelector(".task-preview-content");
+            taskPreview.replaceChildren()
+            const taskPreviewTitle = document.createElement("h3");
+            const descriptionText = document.createElement("textarea")
+            descriptionText.classList.add("description-text")
+            descriptionText.setAttribute("placeholder", "Description")
+            descriptionText.addEventListener("keyup", function (event) {
+
+                if (event.key !== "Enter") return;
+
+                task.setDescription(descriptionText.value)
+                alert(task.getDescription())
+            })
+            taskPreviewTitle.textContent = task.getTitle()
+            if (task.getDescription()) {
+                descriptionText.value = task.getDescription()
+            }
+            taskPreview.append(taskPreviewTitle, descriptionText)
+        })
+
         taskContainer.append(checkbox, newLi);
 
         taskList.append(taskContainer);
+
+
     }
 }
+const taskInfo = (project, taskName) => {
+    const task = project.getTaskInfo(taskName)
+    return task;
 
+}
 const showTaskMenu = (e) => {
+    // make a pop up div
+    //OPTIONS
+    // rename
+    // delete
+    // change priority
     alert(e);
     e.preventDefault();
 }

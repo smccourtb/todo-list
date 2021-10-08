@@ -102,13 +102,28 @@ ol {
 }
 
 .task-preview {
+    height: 100%;
     background-color: rgb(141, 219, 212);
     resize: horizontal;
-    overflow: auto;
+    overflow: hidden;
     direction: rtl;
     min-width: 20%;
+
 }
 
 .task-preview-content {
     direction: ltr;
+    display: flex;
+    flex-direction: column;
+    border: solid;
+    height: 100%;
+
+
+}
+
+.description-text {
+    flex: 1 0 auto;
+    resize: none;
+    max-width: 100%;
+    max-height: 100%;
 }
