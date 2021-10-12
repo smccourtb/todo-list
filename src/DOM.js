@@ -81,6 +81,28 @@ const setupTaskContainer = (project, task) => {
 const TaskPreview = (task, hm) => {
     const taskPreview = document.querySelector(".task-preview-content");
 
+    const setupHeader = () => {
+        const header = document.createElement("div")
+        header.classList.add("task-preview-header")
+        const priority = setupPriority()
+        const dueDate = setupDueDate();
+        header.append(priority, dueDate)
+        return header
+    }
+    const setupDueDate = () => {
+        const date = document.createElement("button")
+        date.classList.add("material-icons")
+        date.textContent = "date_range"
+        return date
+    }
+    const setupPriority = () => {
+        const priorityButton = document.createElement("button")
+        priorityButton.classList.add("material-icons")
+        priorityButton.textContent = "priority_high"
+
+        return priorityButton
+    }
+
     const setupTitle = () => {
         const taskPreviewTitle = document.createElement("h3");
         taskPreviewTitle.textContent = task.getTitle();
@@ -138,6 +160,7 @@ const TaskPreview = (task, hm) => {
 
     const setup = (() => {
         taskPreview.replaceChildren()
+        taskPreview.append(setupHeader())
         taskPreview.append(setupTitle(), setupDescription());
     })()
 }
@@ -247,5 +270,6 @@ const defaultListeventListeners = (() => {
 })()
 
 export {
-    setupEventListeners
+    setupEventListeners,
+    showTasks
 }
