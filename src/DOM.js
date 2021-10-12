@@ -25,6 +25,15 @@ const showTasks = (project) => {
         const checkbox = document.createElement("input"); // checkbox for tasks
         const taskContainer = document.createElement("div"); // houses checkbox and the newLI
         const newLi = document.createElement("li");
+        const taskGroup = document.createElement('div')
+        taskGroup.append(checkbox, newLi)
+        // checkbox.classList.add("task-group")
+        taskGroup.classList.add("task-group")
+        const deleteButton = document.createElement("button")
+        deleteButton.innerHTML = "delete_outline"
+        deleteButton.classList.add("task-delete-button")
+        deleteButton.classList.add("material-icons")
+
         newLi.textContent = task.getTitle();
         taskContainer.classList.add("task-container");
         taskContainer.setAttribute("name", task.getTitle())
@@ -91,7 +100,7 @@ const showTasks = (project) => {
 
 
 
-        taskContainer.append(checkbox, newLi);
+        taskContainer.append(taskGroup, deleteButton);
 
         taskList.append(taskContainer);
 

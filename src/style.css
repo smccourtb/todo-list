@@ -111,6 +111,7 @@ li {
     width: 100%;
     padding: 5px 15px 5px 15px;
     border-radius: 5px;
+    justify-content: space-between;
 }
 
 .task-container-clicked {
@@ -120,6 +121,10 @@ li {
 .task-container:hover {
     background-color: rgba(108, 142, 251, .5);
 
+}
+
+.task-group {
+    display: flex;
 }
 
 .task-preview {
@@ -138,8 +143,6 @@ li {
     flex-direction: column;
     border: solid;
     height: 100%;
-
-
 }
 
 .description-text {
@@ -158,4 +161,9 @@ li {
     font-family: "DejaVu Serif";
     font-weight: bold;
     width: 100%;
+}
+
+.task-delete-button {
+    background: none;
+    margin-right: 10px;
 }
