@@ -9,117 +9,171 @@ import {
 } from "./project-list.js"
 
 
+const setupTaskContainer = (project, task) => {
 
-const showTasks = (project) => {
-    const taskPreview = document.querySelector(".task-preview-content")
-    taskPreview.replaceChildren()
-    const taskList = document.querySelector(".task-list"); // the ol element
-    const taskListContainer = document.querySelector(".project-task-list-container")
-    const projectTitle = document.querySelector(".project-title")
-    projectTitle.textContent = project.getName();
-    //clear tasks
-    taskList.replaceChildren();
-    //switch current project to the one that was clicked
-
-    for (let task of project.taskList) {
-        const checkbox = document.createElement("input"); // checkbox for tasks
-        const taskContainer = document.createElement("div"); // houses checkbox and the newLI
-        const newLi = document.createElement("li");
-        const taskGroup = document.createElement('div')
-        taskGroup.append(checkbox, newLi)
-        // checkbox.classList.add("task-group")
-        taskGroup.classList.add("task-group")
-        const deleteButton = document.createElement("button")
-        deleteButton.innerHTML = "delete_outline"
-        deleteButton.classList.add("task-delete-button")
-        deleteButton.classList.add("material-icons")
-
-        newLi.textContent = task.getTitle();
+    const createTaskContainer = () => {
+        const taskContainer = document.createElement("div"); // houses the individual task
         taskContainer.classList.add("task-container");
-        taskContainer.setAttribute("name", task.getTitle())
-        const taskName = taskContainer.getAttribute("name")
-        checkbox.setAttribute("type", "checkbox");
-        checkbox.addEventListener("click", () => {
+        taskContainer.oncontextmenu = (e) => {
+            showTaskMenu(e);
+        }
+        // event listeners
+        taskContainer.addEventListener("click", () => {
+            taskContainer.classList.toggle("task-container-clicked")
+            TaskPreview(task, document.querySelector(".task-title"))
+        })
+        return taskContainer
+    }
 
+    const createCheckbox = () => {
+        const checkbox = document.createElement("input"); // checkbox for tasks
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.addEventListener("click", (e) => {
+            e.stopPropagation()
             if (checkbox.checked) {
-                console.log('hi there');
                 task.markComplete()
                 project.addToCompleted(task)
                 project.removeTask(task)
                 showTasks(project)
-
             }
         })
-        taskContainer.oncontextmenu = (e) => {
-            showTaskMenu(e);
-        }
-        taskContainer.addEventListener("click", () => {
-            taskContainer.classList.toggle("task-container-clicked")
+        return checkbox
+    }
 
-            const x = document.getElementsByClassName(".task-container-clicked")
-            console.log(x)
-            const task = taskInfo(project, taskName);
-            const taskPreview = document.querySelector(".task-preview-content");
-            taskPreview.replaceChildren()
-            const taskPreviewTitle = document.createElement("h3");
+    const createTaskTitle = () => {
+        const taskTitle = document.createElement("li"); // task title
+        taskTitle.classList.add("task-title")
+        taskTitle.textContent = task.getTitle();
+        return taskTitle
+    }
 
-            const descriptionText = document.createElement("textarea")
-            descriptionText.classList.add("description-text")
-            descriptionText.setAttribute("placeholder", "Description")
-            descriptionText.addEventListener("keyup", function (event) {
-                if (event.key !== "Enter") return;
-                task.setDescription(descriptionText.value);
-                alert(task.getDescription());
-            })
-
-            taskPreviewTitle.textContent = task.getTitle();
-            taskPreviewTitle.classList.add("task-preview-title");
-            taskPreviewTitle.addEventListener("click", () => {
-                const taskTitleChange = document.createElement('input')
-                taskTitleChange.classList.add("task-preview-title-input")
-                const taskTitle = document.querySelector(".task-preview-title")
-                const description = document.querySelector(".description-text")
-                taskTitleChange.setAttribute('type', "text")
-                taskTitleChange.setAttribute('placeholder', task.getTitle())
-                taskTitleChange.addEventListener("keyup", function (event) {
-                    if (event.key !== "Enter") return;
-                    if (taskTitleChange.value === "") return;
-                    task.setTitle(taskTitleChange.value)
-                })
-                taskPreview.removeChild(taskTitle)
-                taskPreview.insertBefore(taskTitleChange, description)
-
-
-            })
-            if (task.getDescription()) {
-                descriptionText.value = task.getDescription()
-            }
-            taskPreview.append(taskPreviewTitle, descriptionText);
+    const createDeleteTaskButton = (project, task) => {
+        const deleteButton = document.createElement("button")
+        deleteButton.classList.add("task-delete-button")
+        deleteButton.classList.add("material-icons")
+        deleteButton.innerHTML = "delete_outline"
+        deleteButton.addEventListener("click", (e) => {
+            e.stopPropagation()
+            project.removeTask(task)
+            showTasks(project)
         })
+        return deleteButton
+    }
 
+    const setup = () => {
+        const taskContainer = createTaskContainer();
+        const taskGroup = document.createElement('div') // houses checkbox and taskTitle for spacing reasons
+        taskGroup.classList.add("task-group")
+        const checkbox = createCheckbox()
+        const taskTitle = createTaskTitle()
 
-
-
+        taskGroup.append(checkbox, taskTitle)
+        const deleteButton = createDeleteTaskButton(project, task)
         taskContainer.append(taskGroup, deleteButton);
+        return taskContainer
+    }
 
-        taskList.append(taskContainer);
 
+    return setup()
+}
+
+
+const TaskPreview = (task, hm) => {
+    const taskPreview = document.querySelector(".task-preview-content");
+
+    const setupTitle = () => {
+        const taskPreviewTitle = document.createElement("h3");
+        taskPreviewTitle.textContent = task.getTitle();
+        taskPreviewTitle.classList.add("task-preview-title");
+        taskPreviewTitle.addEventListener("click", () => {
+            changeTitle()
+        })
+        return taskPreviewTitle
+    }
+
+    const changeTitle = () => {
+        const taskTitleChange = document.createElement('input')
+        taskTitleChange.classList.add("task-preview-title-input")
+        const taskTitle = document.querySelector(".task-preview-title")
+        taskTitleChange.setAttribute('type', "text")
+        taskTitleChange.setAttribute('placeholder', task.getTitle())
+        taskTitleChange.addEventListener("keyup", function (event) {
+            if (event.key !== "Enter") return;
+            if (taskTitleChange.value === "") return;
+            task.setTitle(taskTitleChange.value)
+            taskTitle.textContent = task.getTitle()
+            document.activeElement.blur();
+            taskPreview.replaceChild(taskTitle, taskTitleChange)
+            hm.textContent = task.getTitle()
+        })
+        taskTitleChange.addEventListener("focusout", () => {
+            if (taskTitleChange.value === "") return;
+            task.setTitle(taskTitleChange.value)
+            taskTitle.textContent = task.getTitle()
+            document.activeElement.blur();
+            hm.textContent = task.getTitle()
+
+        })
+        // taskPreview.insertBefore(taskTitleChange, description)
+        taskPreview.replaceChild(taskTitleChange, taskTitle)
+        taskTitleChange.focus()
 
     }
-}
-const taskInfo = (project, taskName) => {
-    const task = project.getTaskInfo(taskName)
-    return task;
 
+    const setupDescription = () => {
+        const descriptionText = document.createElement("textarea");
+        descriptionText.classList.add("description-text")
+        descriptionText.setAttribute("placeholder", "Description")
+        descriptionText.addEventListener("keyup", function (event) {
+            if (event.key !== "Enter") return;
+            task.setDescription(descriptionText.value);
+            descriptionText.value = task.getDescription()
+            document.activeElement.blur();
+        })
+        if (task.getDescription()) {
+            descriptionText.value = task.getDescription()
+        }
+        return descriptionText
+    }
+
+    const setup = (() => {
+        taskPreview.replaceChildren()
+        taskPreview.append(setupTitle(), setupDescription());
+    })()
 }
-const showTaskMenu = (e) => {
-    // make a pop up div
-    //OPTIONS
-    // rename
-    // delete
-    // change priority
-    alert(e);
-    e.preventDefault();
+
+
+
+
+
+const showTasks = (project) => {
+    const taskPreview = document.querySelector(".task-preview-content")
+    // clear out the task list container to start fresh
+    taskPreview.replaceChildren()
+    const taskList = document.querySelector(".task-list"); // the ol element
+    const projectTitle = document.querySelector(".project-title")
+    // set title of project
+    projectTitle.textContent = project.getName();
+    //clear tasks
+    taskList.replaceChildren();
+    //switch current project to the one that was clicked
+    if (project.taskList.length > 0) {
+        console.log("YES THERE ARE TASKS")
+        for (let task of project.taskList) {
+            const taskContainer = setupTaskContainer(project, task) // houses the individual task
+            taskList.append(taskContainer);
+        }
+    }
+
+    const showTaskMenu = (e) => {
+        // make a pop up div
+        //OPTIONS
+        // rename
+        // delete
+        // change priority
+        alert(e);
+        e.preventDefault();
+    }
 }
 
 
@@ -178,6 +232,7 @@ const addProjectLink = (whichProject) => {
     userProjectBtn.textContent = whichProject.getName()
     return userProjectBtn
 }
+
 const defaultListeventListeners = (() => {
     const inboxDOM = document.querySelector(".inbox")
     const todayDOM = document.querySelector(".today")
@@ -186,7 +241,7 @@ const defaultListeventListeners = (() => {
     for (let i of [inboxDOM, todayDOM, upcomingDOM]) {
         i.addEventListener("click", () => {
             ProjectList.setCurrentProject(ProjectList.getProject(i.name))
-            showTasks(ProjectList.getProject(i.name))
+            showTasks(ProjectList.getCurrentProject())
         })
     }
 })()
