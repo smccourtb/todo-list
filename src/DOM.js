@@ -85,9 +85,11 @@ const TaskPreview = (task, hm) => {
         const header = document.createElement("div")
         header.classList.add("task-preview-header")
         const priority = setupPriority()
+
         const dueDate = setupDueDate();
         header.append(priority, dueDate)
         return header
+
     }
     const setupDueDate = () => {
         const date = document.createElement("button")
@@ -98,9 +100,48 @@ const TaskPreview = (task, hm) => {
     const setupPriority = () => {
         const priorityButton = document.createElement("button")
         priorityButton.classList.add("material-icons")
+        priorityButton.classList.add("priority-button")
         priorityButton.textContent = "priority_high"
 
+
+
+        priorityButton.addEventListener("click", () => {
+            const popup = createPriorityPopup()
+            priorityButton.append(popup)
+        })
         return priorityButton
+    }
+
+    const createPriorityPopup = () => {
+        const options = ["high", "medium", "low", "none"]
+        const popupContainer = document.createElement("div")
+        popupContainer.classList.add("priority-popup-container")
+
+        for (let i = 0; i < 4; i++) {
+            const buttonContainer = document.createElement("div");
+            buttonContainer.classList.add("priority-popup-button-container");
+            const button = document.createElement("button");
+            const label = document.createElement("div");
+            label.classList.add("priority-label")
+            label.textContent = options[i];
+            button.classList.add("material-icons")
+            button.classList.add(options[i])
+            button.textContent = "priority_high"
+            buttonContainer.addEventListener("click", (e) => {
+                task.setPriority(options[i])
+                console.log(task)
+
+            })
+
+            buttonContainer.append(button, label)
+            popupContainer.append(buttonContainer)
+
+        }
+        popupContainer.addEventListener("click", (e) => {
+            e.stopPropagation()
+            popupContainer.remove()
+        })
+        return popupContainer
     }
 
     const setupTitle = () => {

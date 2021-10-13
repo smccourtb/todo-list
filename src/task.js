@@ -1,9 +1,9 @@
 class Task {
-    constructor(title, complete=false) {
+    constructor(title, complete = false, priority = "none") {
         this.title = title;
         // this.description = description;
         // this.dueDate = dueDate;
-        // this.priority = priority
+        this.priority = priority
         this.complete = complete
     };
 
@@ -38,4 +38,6 @@ class Task {
 
 
 
-export {Task}
+export {
+    Task
+}

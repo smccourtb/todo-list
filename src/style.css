@@ -22,7 +22,6 @@ nav {
     display: flex;
     flex-direction: column;
     resize: horizontal;
-    overflow: auto;
     background-color: thistle;
 
 }
@@ -31,6 +30,7 @@ body {
     font-family: 'Nimbus Sans';
     font-weight: 100;
     font-size: 14px;
+
 }
 
 h5 {
@@ -47,6 +47,7 @@ main {
 footer {
     display: flex;
     justify-content: center;
+    flex: 1 0 auto;
 }
 
 a {
@@ -170,4 +171,66 @@ li {
 .task-delete-button {
     background: none;
     margin-right: 10px;
+}
+
+.priority-popup-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background: white;
+}
+
+.priority-popup-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+
+}
+
+.priority-popup-button-container:hover {
+    background-color: rgb(235, 225, 225);
+}
+
+.high {
+    color: red;
+    font-size: inherit;
+    border: none;
+}
+
+.high:hover {
+    background-color: rgb(235, 225, 225);
+}
+
+.medium {
+    color: yellow;
+    font-size: inherit;
+    border: none;
+}
+
+.low {
+    color: green;
+    font-size: inherit;
+    border: none;
+}
+
+.none {
+    color: lightgray;
+    font-size: inherit;
+    border: none;
+}
+
+.priority-label {
+    font-family: 'Nimbus Sans';
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.priority-label:hover {
+    background-color: rgb(235, 225, 225);
+
+}
+
+.priority-popup-container-hidden {
+    display: none;
 }
