@@ -66,6 +66,7 @@ a {
 
 button {
     background: none;
+    border: none;
 }
 
 .project-preview {
@@ -231,6 +232,51 @@ li {
 
 }
 
-.priority-popup-container-hidden {
+input[type="checkbox"] {
     display: none;
+}
+
+.checkbox-none>label {
+    left: 0px;
+    display: inline-block;
+    min-height: 15px;
+    height: 15px;
+    width: 15px;
+    color: lightgray;
+    margin-top: 3px;
+}
+
+.checkbox-low>label {
+    left: 0px;
+    display: inline-block;
+    min-height: 15px;
+    height: 15px;
+    width: 15px;
+    color: green;
+    margin-top: 3px;
+}
+
+.checkbox-medium>label {
+    left: 0px;
+    display: inline-block;
+    min-height: 15px;
+    height: 15px;
+    width: 15px;
+    color: 1px solid yellow;
+    margin-top: 3px;
+}
+
+.checkbox-high>label {
+    left: 0px;
+    display: inline-block;
+    min-height: 15px;
+    height: 15px;
+    width: 15px;
+    border: 1px solid red;
+    margin-top: 3px;
+}
+
+.checkbox-high>label:hover {
+    color: red;
+    background-color: rgba(223, 87, 87, 0.1);
 }

@@ -8,7 +8,24 @@ import {
     ProjectList
 } from "./project-list.js"
 
-
+class TaskComponent {
+    constructor(task) {
+        this.task = task;
+    }
+    createTaskContainer = () => {
+        const taskContainer = document.createElement("div"); // houses the individual task
+        taskContainer.classList.add("task-container");
+        taskContainer.oncontextmenu = (e) => {
+            showTaskMenu(e);
+        }
+        // event listeners
+        taskContainer.addEventListener("click", () => {
+            taskContainer.classList.toggle("task-container-clicked")
+            TaskPreview(task, document.querySelector(".task-title"), project)
+        })
+        return taskContainer
+    }
+}
 const setupTaskContainer = (project, task) => {
 
     const createTaskContainer = () => {
@@ -20,13 +37,17 @@ const setupTaskContainer = (project, task) => {
         // event listeners
         taskContainer.addEventListener("click", () => {
             taskContainer.classList.toggle("task-container-clicked")
-            TaskPreview(task, document.querySelector(".task-title"))
+            TaskPreview(task, document.querySelector(".task-title"), document.querySelector(`checkbox-${task.getPriority()}`), project)
         })
         return taskContainer
     }
 
     const createCheckbox = () => {
+        const checkboxContainer = document.createElement("div")
+        checkboxContainer.classList.add(`checkbox-${task.getPriority()}`)
         const checkbox = document.createElement("input"); // checkbox for tasks
+        checkbox.setAttribute("name", `checkbox-${task.getPriority()}`)
+        const label = document.createElement("label")
         checkbox.setAttribute("type", "checkbox");
         checkbox.addEventListener("click", (e) => {
             e.stopPropagation()
@@ -37,7 +58,10 @@ const setupTaskContainer = (project, task) => {
                 showTasks(project)
             }
         })
-        return checkbox
+        label.append(checkbox)
+        checkboxContainer.append(label)
+
+        return checkboxContainer
     }
 
     const createTaskTitle = () => {
@@ -61,13 +85,15 @@ const setupTaskContainer = (project, task) => {
     }
 
     const setup = () => {
-        const taskContainer = createTaskContainer();
         const taskGroup = document.createElement('div') // houses checkbox and taskTitle for spacing reasons
+
         taskGroup.classList.add("task-group")
         const checkbox = createCheckbox()
         const taskTitle = createTaskTitle()
 
         taskGroup.append(checkbox, taskTitle)
+        const taskContainer = createTaskContainer();
+
         const deleteButton = createDeleteTaskButton(project, task)
         taskContainer.append(taskGroup, deleteButton);
         return taskContainer
@@ -78,7 +104,7 @@ const setupTaskContainer = (project, task) => {
 }
 
 
-const TaskPreview = (task, hm) => {
+const TaskPreview = (task, hm, checkboxContainerNode, project) => {
     const taskPreview = document.querySelector(".task-preview-content");
 
     const setupHeader = () => {
@@ -128,14 +154,14 @@ const TaskPreview = (task, hm) => {
             button.classList.add(options[i])
             button.textContent = "priority_high"
             buttonContainer.addEventListener("click", (e) => {
+                // checkboxContainerNode.classList.replace(`checkbox-${task.getPriority()}`, `checkbox-${options[i]}`)
                 task.setPriority(options[i])
-                console.log(task)
+
+
 
             })
-
             buttonContainer.append(button, label)
             popupContainer.append(buttonContainer)
-
         }
         popupContainer.addEventListener("click", (e) => {
             e.stopPropagation()
@@ -222,7 +248,6 @@ const showTasks = (project) => {
     taskList.replaceChildren();
     //switch current project to the one that was clicked
     if (project.taskList.length > 0) {
-        console.log("YES THERE ARE TASKS")
         for (let task of project.taskList) {
             const taskContainer = setupTaskContainer(project, task) // houses the individual task
             taskList.append(taskContainer);
@@ -250,8 +275,13 @@ const setupEventListeners = (() => {
         newTaskInput.addEventListener("keyup", function (event) {
             if (event.key !== "Enter") return;
             const current = ProjectList.getCurrentProject()
+            console.log("THIS IS THE CURRENT PROJECT: ", current)
             current.addTask(new Task(newTaskInput.value));
+            window.localStorage.setItem(current.getName(), JSON.stringify(current))
+            console.log("AFTER CREATING NEW TASK: ", window.localStorage.getItem(current.getName()))
+
             newTaskInput.value = "";
+
             showTasks(current)
         })
     })();
@@ -271,9 +301,12 @@ const setupEventListeners = (() => {
             if (event.key !== "Enter") return;
             // creates a new project then clears input
             const project = Project(addProjectInput.value);
+            window.localStorage.setItem(project.getName(), JSON.stringify(project))
+            console.log("AFTER SUBMITTING A NEW PROJECT: ", window.localStorage.getItem(project.getName()))
             addProjectInput.value = "";
             // add to ProjectList
             ProjectList.addProject(project)
+
             addProjectPopup.classList.toggle("add-project-popup-show");
             event.preventDefault();
             // adds a button to load the project
@@ -292,6 +325,7 @@ const addProjectLink = (whichProject) => {
     const userProjectBtn = document.createElement('button')
     userProjectBtn.addEventListener("click", () => {
         showTasks(whichProject)
+
     })
     userProjectBtn.textContent = whichProject.getName()
     return userProjectBtn
@@ -301,8 +335,10 @@ const defaultListeventListeners = (() => {
     const inboxDOM = document.querySelector(".inbox")
     const todayDOM = document.querySelector(".today")
     const upcomingDOM = document.querySelector(".upcoming")
+    let projects = [inboxDOM, todayDOM, upcomingDOM]
 
-    for (let i of [inboxDOM, todayDOM, upcomingDOM]) {
+
+    for (let i of projects) {
         i.addEventListener("click", () => {
             ProjectList.setCurrentProject(ProjectList.getProject(i.name))
             showTasks(ProjectList.getCurrentProject())
@@ -310,7 +346,23 @@ const defaultListeventListeners = (() => {
     }
 })()
 
+const setupSavedProjects = () => {
+    for (let p = 3; p < ProjectList.projectList.length; p++) {
+        const userProjectBtn = document.createElement('button')
+        userProjectBtn.addEventListener("click", () => {
+            showTasks(ProjectList.projectList[p])
+        })
+        userProjectBtn.textContent = ProjectList.projectList[p].getName()
+
+
+        const nav = document.querySelector("nav")
+        nav.append(userProjectBtn)
+    }
+}
+
+
 export {
     setupEventListeners,
-    showTasks
+    showTasks,
+    setupSavedProjects
 }

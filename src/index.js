@@ -1,5 +1,6 @@
 import {
     loadProject,
+    setupSavedProjects,
     showTasks
 } from "./DOM.js"
 import {
@@ -12,3 +13,4 @@ import {
 import './style.css';
 
 const loadDefault = (showTasks(ProjectList.getCurrentProject()))
+const setup = (setupSavedProjects())

@@ -26,6 +26,7 @@ const Project = (title) => {
         };
     }
     return {
+        name,
         getName,
         taskList,
         addTask,
