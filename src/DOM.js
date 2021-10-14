@@ -55,6 +55,8 @@ const setupTaskContainer = (project, task) => {
                 task.markComplete()
                 project.addToCompleted(task)
                 project.removeTask(task)
+                window.localStorage.setItem(project.getName(), JSON.stringify(project))
+
                 showTasks(project)
             }
         })
@@ -79,6 +81,8 @@ const setupTaskContainer = (project, task) => {
         deleteButton.addEventListener("click", (e) => {
             e.stopPropagation()
             project.removeTask(task)
+            window.localStorage.setItem(project.getName(), JSON.stringify(project))
+
             showTasks(project)
         })
         return deleteButton
