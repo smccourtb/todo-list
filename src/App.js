@@ -5,7 +5,9 @@ import CreateTask from './components/CreateTask';
 
 function App() {
   return (
-    <div className="App">Hello World!
+    <div className="App">
+      <CreateTask />
+      <TaskContainer />
     </div>
   );
 }

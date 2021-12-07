@@ -1,4 +1,4 @@
-import "../styles/ProjectContainer";
+import "../styles/ProjectContainer.css";
 
 function ProjectContainer() {
     return ( <div></div>)
