@@ -2,7 +2,6 @@
     display:flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid black;
     padding: 1em;
 }
 
@@ -23,15 +22,18 @@
 }
 
 .unchecked {
-    background: white;
+    background: hsl(237, 14%, 26%);
+    transition:all 100ms ease-in;
 }
 
 .checked {
+    transition:all 100ms ease-in;
     background-image: url("../images/icon-check.svg"), linear-gradient(135deg, hsl(192, 100%, 67%) , hsl(280, 87%, 65%));
     background-position:center;
     background-repeat:no-repeat;
     background-size: auto;
 }
+
 .checkbox__border:hover {
     background: linear-gradient(135deg, hsl(192, 100%, 67%) , hsl(280, 87%, 65%));
 }

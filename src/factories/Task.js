@@ -1,13 +1,9 @@
 // holds task data
-const Task = (title = "", completed=false) => {
-    const getTitle =  () => title;
-    const setTitle = (newTitle) => title = newTitle;
-    const getCompleted = () => completed;
-    const setCompleted = (done) => completed = done;
+const Task = (newTitle = "", isCompleted=false) => {
+    let title = newTitle;
+    let completed = isCompleted;
 
-    return {
-        getTitle, setTitle, getCompleted, setCompleted
-    }
+    return { title, completed }
 };
 
 export default Task;
