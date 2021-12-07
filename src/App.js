@@ -1,6 +1,7 @@
 import './styles/App.css';
-import Task from './Task';
-import Project from './Project';
+import TaskContainer from './components/TaskContainer';
+import ProjectContainer from './components/ProjectContainer';
+import CreateTask from './components/CreateTask';
 
 function App() {
   return (
