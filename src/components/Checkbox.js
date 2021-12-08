@@ -1,5 +1,4 @@
 import '../styles/Checkbox.css'
-import {useState} from 'react';
 
 function Checkbox({ completed }) {
 
