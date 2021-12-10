@@ -1,22 +1,26 @@
 import "../styles/TaskContainer.css";
 import Checkbox from "./Checkbox";
 import Task from '../factories/Task';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-function TaskContainer({ title }) {
-    const [task, setTask] = useState(Task(title))    
+function TaskContainer({data, completeTask }) {
     
+    const [task, setTask] = useState(data) 
+
     function handleClick() {
         setTask(prevTask => ({
             ...prevTask,
-            completed: !prevTask.completed
+            completed: !task.completed
         }))
-    }
-    
+        console.log("TASK TO COMPLETE: ", data)
+        completeTask(data)
+    }   
+
+
     return(
         <div className='task-container' onClick={handleClick}>
-            <Checkbox completed={task.completed} />
-            <p className={`task-container__title ${task.completed ? "completed" : undefined}`}>{task.title}</p>
+            <Checkbox completed={data.completed} />
+            <p className={`task-container__title ${data.completed ? "completed" : undefined}`}>{data.title}</p>
         </div>
     )
 }
