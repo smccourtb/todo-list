@@ -1,6 +1,6 @@
 import "../styles/TaskContainer.css";
 import Checkbox from "./Checkbox";
-import Task from '../factories/Task';
+// import Task from '../factories/Task';
 import React, { useState } from 'react';
 
 function TaskContainer({data, completeTask }) {
@@ -12,7 +12,6 @@ function TaskContainer({data, completeTask }) {
             ...prevTask,
             completed: !task.completed
         }))
-        console.log("TASK TO COMPLETE: ", data)
         completeTask(data)
     }   
 
