@@ -13,26 +13,26 @@ function ProjectContainer({ project, setProject }) {
 
 
     function deleteCompletedTasks() {
-        // const incompleteTasks = project.filter(task => !task.completed)
-        setProject([...incomplete, ...project.filter(task => !task.completed)])
+        const incompleteTasks = project.filter(task => !task.completed)
+        setComplete([])
+        setProject([...incompleteTasks])
     }
 
     function completeTask(taskToComplete) {
         let x = project.find(task => task === taskToComplete)
         x.completed = !x.completed
         setProject(project)
+        setComplete([...project.filter(task => task.completed)])
+        setIncomplete([...project.filter(task => !task.completed)])
+
     }
 
     function filter(e) {
         switch (e.target.textContent) {
-            case "Active": 
-                if (complete.length < 1) {
-                    setComplete(project.filter(task => task.completed))
-                }
-                setProject( prevProject => ( [
-                    ...prevProject.filter(task => !task.completed),
+            case "Active":
+                setProject( [
                     ...incomplete ])
-                )
+                
                 return
             case "All": 
                 setProject(prevProject => (
@@ -42,17 +42,13 @@ function ProjectContainer({ project, setProject }) {
                         ...incomplete
                     ]
                 ))
-                setComplete([])
-                setIncomplete([])
+                // setComplete([])
+                // setIncomplete([])
                 return
             case "Completed":
-                if (incomplete.length < 1) {
-                    setIncomplete(project.filter(task => !task.completed))
-                }
-                setProject( prevProject => ( [
-                    ...prevProject.filter(task => task.completed),
+                setProject( [
                     ...complete ])
-                )
+                
                 return
 
             default: return
@@ -66,11 +62,11 @@ function ProjectContainer({ project, setProject }) {
                 <p>{project.length} items left</p>
                 <button className="clear-completed" onClick={deleteCompletedTasks}>Clear Completed</button>
             </li>
-            <li className="task-container filter">
-                <button onClick={filter}>All</button>
-                <button onClick={filter}>Active</button>
-                <button onClick={filter}>Completed</button>
-            </li>
+            <div className="filter-container">
+                <button className="filter-btn" onClick={filter}>All</button>
+                <button className="filter-btn" onClick={filter}>Active</button>
+                <button className="filter-btn" onClick={filter}>Completed</button>
+            </div>
         </ul>
     </div>)
 }
