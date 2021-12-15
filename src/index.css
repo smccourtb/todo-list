@@ -6,11 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Josefin Sans', sans-serif;
-  height: 100vh;
-  background: url("./images/bg-mobile-dark.jpg") no-repeat, hsl(235, 21%, 11%);
-  padding: 1em;
-  font-size: 18px;
+  
 }
 
 code {

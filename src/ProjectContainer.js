@@ -9,7 +9,7 @@ const Container = styled.div`
   display:flex;
   align-items: center;
   flex-direction: column;
-  background:hsl(237, 14%, 26%);
+  ${props => props.mode ? css `background: hsl(0, 0%, 98%);` : css `background:hsl(237, 14%, 26%);`};
   width: 100%;
   border-radius: .33em .33em 0em 0em;
   height:18em;
@@ -20,7 +20,8 @@ const FilterContainer = styled.div`
   margin-top : 1em;
   display:flex;
   height:2.75em;
-  background:hsl(237, 14%, 26%);
+  ${props => props.mode ? css `background: hsl(0, 0%, 98%);` : css `background:hsl(237, 14%, 26%);`};
+
   align-items:center;
   justify-content: space-evenly;
   padding: .5em 2em;
@@ -46,7 +47,8 @@ const FilterButton = styled.button`
 
 const ContainerFooter = styled.footer`
   display:flex;
-  background:hsl(237, 14%, 26%);
+  ${props => props.mode ? css `background: hsl(0, 0%, 98%);` : css `background:hsl(237, 14%, 26%);`};
+
   align-items:center;
   justify-content: space-between;
   padding: .5em 1.5em;
@@ -100,7 +102,7 @@ export default function ProjectContainer(props) {
 
   const TaskList = React.memo(function TaskList({ tasks }) {
     return tasks.map((task, index) => (
-      <Task task={task} index={index} key={task.id} deleteTask={deleteTask}/>
+      <Task task={task} index={index} key={task.id} deleteTask={deleteTask} mode={props.mode}/>
     ));
   });
 
@@ -135,22 +137,23 @@ export default function ProjectContainer(props) {
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="list">
               {provided => (
-                <Container ref={provided.innerRef} {...provided.droppableProps}>
+                <Container ref={provided.innerRef} {...provided.droppableProps} mode={props.mode ? 1 : 0} >
                   <TaskList tasks={state === "All" ? 
                                   props.state.tasks : 
                                   state === "Active" ? 
                                   props.state.tasks.filter(task => !task.completed) :
-                                  props.state.tasks.filter(task => task.completed)} />
+                                  props.state.tasks.filter(task => task.completed)}
+                                  />
                   {provided.placeholder}
                 </Container>
               )}
             </Droppable>
           </DragDropContext>
-          <ContainerFooter>
+          <ContainerFooter mode={props.mode ? 1 : 0}>
             <p>{`${props.state.tasks.length} items left`}</p>
             <ClearButton onClick={clearCompleted}>Clear Completed</ClearButton>
           </ContainerFooter>
-          <FilterContainer>
+          <FilterContainer mode={props.mode ? 1 : 0}>
             <FilterButton active={state==="All"} onClick={filter}>All</FilterButton>
             <FilterButton active={state==="Active"} onClick={filter}>Active</FilterButton>
             <FilterButton active={state==="Completed"} onClick={filter}>Completed</FilterButton>

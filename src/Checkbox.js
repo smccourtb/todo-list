@@ -7,7 +7,7 @@ const Border = styled.div`
         justify-content:center;
         width: 1.75em;
         height: 1.75em;
-        background-color: hsl(233, 14%, 35%);
+        ${props => props.mode ? css `background: hsl(233, 11%, 84%);` : css `background: hsl(233, 14%, 35%)`};
         background-position:center;
         background-repeat:no-repeat;
         background-size: auto;
@@ -18,31 +18,30 @@ const Border = styled.div`
         width: 1.6em;
         height: 1.6em;
         border-radius: 50%;
-        background: hsl(237, 14%, 26%);
+        ${props => props.mode ? css `background: hsl(0, 0%, 98%);` : css `background: hsl(237, 14%, 26%)`};
         ${props => props.done && css `background-image: url(${props => props.img}), linear-gradient(135deg, hsl(192, 100%, 67%) , hsl(280, 87%, 65%));`}
         background-position:center;
         background-repeat:no-repeat;
         background-size: auto;
-        transition:all 100ms ease-in;
     `;
 
     const Container = styled.div`
         display:flex;
         align-items: center;
         justify-content: center;
-        padding: 1em 1em 1.25em 1em;
+        padding: 1em 1em 1.25em 0em;
         &:hover ${Border} { background: linear-gradient(135deg, hsl(192, 100%, 67%) , hsl(280, 87%, 65%));}
     `;
 
-function Checkbox({completed}) {
+function Checkbox({completed, mode}) {
 
 
     
 
     return(
         <Container>
-            <Border >
-                <Inner img={img} done={completed}></Inner>
+            <Border mode={mode ? 1 : 0}>
+                <Inner img={img} done={completed} mode={mode ? 1 : 0}></Inner>
             </Border>
         </Container>
     )
