@@ -12,16 +12,29 @@ const TaskItem = styled.div`
   padding: .5em 1em;
   width:100%;
   ${props => props.mode ? css `border-bottom: 1px solid hsl(233, 11%, 84%);` : css `border-bottom: 1px solid hsl(233, 14%, 35%)`};
-  ${props => props.completed ? css `color: hsl(234, 11%, 52%); text-decoration: line-through;` : css `color:hsl(234, 39%, 85%);`}
   &:first-child { border-radius: .33em .33em 0em 0em ;}
+  ${props => props.completed && css `color:black;`}
+
+
   height:4em;
 `;
 
-const TaskTitle = styled.p`
+const DarkTaskTitle = styled.p`
   margin-right: auto;
-  ${props => props.mode ? css `color: hsl(235, 19%, 35%);` : css `color: hsl(234, 39%, 85%)`}
-  ${'' /* font-weight: 700; */}
+  ${props => props.completed ? css `color:hsl(234, 11%, 52%);` : css `color:hsl(234, 39%, 85%);`}
+  ${props => props.completed && css `text-decoration: line-through;`};
+
+
 `
+
+const LightTaskTitle = styled.p`
+  margin-right: auto;
+  ${props => props.completed ? css `color:hsl(234, 39%, 85%);` : css `color:hsl(234, 11%, 52%);;`}
+  ${props => props.completed && css `text-decoration: line-through;`};
+
+
+`
+
 const Delete = styled.button`
   ${props => props.mode ? css `background: hsl(0, 0%, 98%)`: css `background: hsl(237, 14%, 26%)`};
 
@@ -53,7 +66,9 @@ export default function Task({ task, index , deleteTask, mode}) {
             mode={mode ? 1 : 0}
           >
           <Checkbox completed={state}  mode={mode}/>
-            <TaskTitle mode={mode ? 1 : 0}>{task.title}</TaskTitle>
+            {mode ? <LightTaskTitle mode={mode ? 1 : 0} completed={state}>{task.title}</LightTaskTitle>
+              :
+              <DarkTaskTitle mode={mode ? 1 : 0} completed={state}>{task.title}</DarkTaskTitle>}
           <Delete onClick={e => deleteTask(e, task.id) } mode={mode ? 1 : 0}></Delete>
           </TaskItem>
         )}
