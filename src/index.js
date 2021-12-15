@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
@@ -10,3 +11,13 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+=======
+import App from "./App";
+import ReactDOM from "react-dom";
+
+
+const rootElement = document.getElementById("root");
+
+
+ReactDOM.render(<App />, rootElement);
+>>>>>>> cb8f6ec (transfer project into this repository)
