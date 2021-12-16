@@ -37,6 +37,11 @@ const Background = styled.div`
   @media ${device.tablet} { 
     font-size:20px;
   }
+
+  @media ${device.laptop} {
+    font-size: 24px;
+  }
+  
 `
 const Footer = styled.h6`
     color: hsl(234, 11%, 52%);

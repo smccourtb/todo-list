@@ -14,7 +14,11 @@ const Container = styled.div`
   width: 100%;
   border-radius: .33em .33em 0em 0em;
   height:18em;
-  overflow:scroll;
+  overflow-y:auto;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+}
 `
 
 const FilterContainer = styled.div`
