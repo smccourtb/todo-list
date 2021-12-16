@@ -2,6 +2,7 @@ import React from 'react';
 import { DragDropContext, Droppable} from "react-beautiful-dnd";
 import styled, {css} from 'styled-components';
 import {useState} from 'react'
+import {useMediaQuery} from 'react-responsive'
 
 import Task from "./Task";
 
@@ -71,7 +72,7 @@ const ClearButton = styled.button`
 `
 export default function ProjectContainer(props) {
   const [state, setState] = useState("All")
-
+  const isTablet = useMediaQuery({ query: '(min-width: 768px)' })
   function filter(e) {
     switch (e.target.textContent) {
       case "Active":
@@ -142,22 +143,30 @@ export default function ProjectContainer(props) {
                                   props.state.tasks : 
                                   state === "Active" ? 
                                   props.state.tasks.filter(task => !task.completed) :
-                                  props.state.tasks.filter(task => task.completed)}
-                                  />
+                                  props.state.tasks.filter(task => task.completed)}/>
                   {provided.placeholder}
                 </Container>
               )}
             </Droppable>
           </DragDropContext>
+
           <ContainerFooter mode={props.mode ? 1 : 0}>
             <p>{`${props.state.tasks.length} items left`}</p>
+            {isTablet && 
+              <div>
+                <FilterButton active={state==="All"} onClick={filter}>All</FilterButton>
+                <FilterButton active={state==="Active"} onClick={filter}>Active</FilterButton>
+                <FilterButton active={state==="Completed"} onClick={filter}>Completed</FilterButton>
+              </div>}
             <ClearButton onClick={clearCompleted}>Clear Completed</ClearButton>
           </ContainerFooter>
-          <FilterContainer mode={props.mode ? 1 : 0}>
-            <FilterButton active={state==="All"} onClick={filter}>All</FilterButton>
-            <FilterButton active={state==="Active"} onClick={filter}>Active</FilterButton>
-            <FilterButton active={state==="Completed"} onClick={filter}>Completed</FilterButton>
-          </FilterContainer>
+
+          {!isTablet && 
+            <FilterContainer mode={props.mode ? 1 : 0}>
+              <FilterButton active={state==="All"} onClick={filter}>All</FilterButton>
+              <FilterButton active={state==="Active"} onClick={filter}>Active</FilterButton>
+              <FilterButton active={state==="Completed"} onClick={filter}>Completed</FilterButton>
+            </FilterContainer>}
         </div>
     );
   }
