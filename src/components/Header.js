@@ -1,41 +1,27 @@
-import styled, { css } from "styled-components";
-import darkIcon from "../images/icon-moon.svg";
-import lightIcon from "../images/icon-sun.svg";
+import styled from "styled-components";
+import ThemeToggle from "../ThemeToggle";
 
 const Container = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 1em 0em;
+  padding: 1em 0;
   font-size: 0.75em;
   letter-spacing: 0.5em;
   color: white;
   margin-bottom: 3em;
 `;
 
-const ModeButton = styled.button`
-  background: none;
-  background-image: ${(props) =>
-    props.mode ? css`url(${darkIcon})` : css`url(${lightIcon})`};
-  border: none;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: auto;
-  height: 2em;
-  width: 2em;
-  cursor: pointer;
+const Heading = styled.h1`
+  height: 100%;
 `;
 
-export default function Header(props) {
-  function changeMode() {
-    props.setMode(!props.mode);
-  }
-
+export default function Header({ toggleTheme }) {
   return (
     <Container>
-      <h1>TODO</h1>
-      <ModeButton onClick={changeMode} mode={props.mode ? 1 : 0}></ModeButton>
+      <Heading>TODO</Heading>
+      <ThemeToggle toggleTheme={toggleTheme} />
     </Container>
   );
 }

@@ -7,14 +7,8 @@ const Border = styled.div`
   justify-content: center;
   width: 1.75em;
   height: 1.75em;
-  ${(props) =>
-    props.mode
-      ? css`
-          background: hsl(233, 11%, 84%);
-        `
-      : css`
-          background: hsl(233, 14%, 35%);
-        `};
+
+  background-color: ${({ theme }) => theme.taskBorderColor};
   background-position: center;
   background-repeat: no-repeat;
   background-size: auto;
@@ -25,14 +19,7 @@ const Inner = styled.div`
   width: 1.6em;
   height: 1.6em;
   border-radius: 50%;
-  ${(props) =>
-    props.mode
-      ? css`
-          background: hsl(0, 0%, 98%);
-        `
-      : css`
-          background: hsl(237, 14%, 26%);
-        `};
+  background-color: ${({ theme }) => theme.containerBackgroundColor};
   ${(props) =>
     props.done &&
     css`
@@ -48,7 +35,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1em 1em 1.25em 0em;
+  padding: 1em 1em 1.25em 0;
   &:hover ${Border} {
     background: linear-gradient(
       135deg,
@@ -62,7 +49,7 @@ function Checkbox({ completed, mode }) {
   return (
     <Container>
       <Border mode={mode ? 1 : 0}>
-        <Inner img={img} done={completed} mode={mode ? 1 : 0}></Inner>
+        <Inner img={img} done={completed} />
       </Border>
     </Container>
   );

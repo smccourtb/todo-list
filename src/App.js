@@ -5,46 +5,34 @@ import CreateTask from "./components/CreateTask";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styled, { css } from "styled-components";
-import mobileBgDark from "./images/bg-mobile-dark.jpg";
-import mobileBgLight from "./images/bg-mobile-light.jpg";
-import desktopBgDark from "./images/bg-desktop-dark.jpg";
-import desktopBgLight from "./images/bg-desktop-light.jpg";
 
-import { device } from "./device";
+import { darkTheme, lightTheme } from "./theme";
+import { ThemeProvider } from "styled-components/macro";
 
-const Ap = styled.div`
-  @media ${device.mobileL} {
-    min-width: 40%;
-  }
-`;
 const Background = styled.div`
   font-family: "Josefin Sans", sans-serif;
   height: 100vh;
-  background: ${(props) =>
-    props.mode
-      ? css`url(${mobileBgLight}) no-repeat, hsl(236, 33%, 92%)`
-      : css`url(${mobileBgDark}) no-repeat, hsl(235, 21%, 11%)`};
+  background-image: ${({ theme }) => css`url(${theme.mobileBackgroundImage})`};
+  background-repeat: no-repeat;
+  background-color: ${({ theme }) => theme.backgroundColor};
   background-size: contain;
   padding: 1em;
-  font-size: 18px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  @media ${device.mobileL} {
-    background: ${(props) =>
-      props.mode
-        ? css`url(${desktopBgLight}) no-repeat, hsl(236, 33%, 92%)`
-        : css`url(${desktopBgDark}) no-repeat, hsl(235, 21%, 11%)`};
+  @media (min-width: 425px) {
+    background-image: ${({ theme }) => css`url(${theme.backgroundImage})`};
+    background-repeat: no-repeat;
     background-size: 100% 33%;
   }
 
-  @media ${device.tablet} {
+  @media (min-width: 768px) {
     font-size: 20px;
   }
 
-  @media ${device.laptop} {
+  @media (min-width: 1024px) {
     font-size: 24px;
   }
 `;
@@ -55,32 +43,37 @@ const Footer = styled.h6`
   margin-top: 3em;
 `;
 
-function App() {
-  const [mode, setMode] = useState(false); // false = dark mode || true = light mode
+// creates and populates an initial task array
+const initial = Array.from({ length: 3 }, (element, index) => index).map(
+  (k) => {
+    return {
+      id: uuidv4(),
+      title: `Task ${k}`,
+      completed: false,
+    };
+  }
+);
 
-  // creates and populates an initial task array
-  const initial = Array.from({ length: 3 }, (element, index) => index).map(
-    (k) => {
-      return {
-        id: uuidv4(),
-        title: `Task ${k}`,
-        completed: false,
-      };
-    }
-  );
+const App = () => {
+  const [theme, setTheme] = useState("dark");
+  const themeToggler = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
 
   const [state, setState] = useState({ tasks: initial });
 
   return (
-    <Background mode={mode ? 1 : 0}>
-      <Ap>
-        <Header mode={mode} setMode={setMode} />
-        <CreateTask setState={setState} mode={mode} />
-        <ProjectContainer state={state} setState={setState} mode={mode} />
-        <Footer mode={mode ? 1 : 0}>Drag and drop to reorder list</Footer>
-      </Ap>
-    </Background>
+    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <Background>
+        <main>
+          <Header toggleTheme={themeToggler} />
+          <CreateTask setState={setState} />
+          <ProjectContainer state={state} setState={setState} />
+          <Footer>Drag and drop to reorder list</Footer>
+        </main>
+      </Background>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
